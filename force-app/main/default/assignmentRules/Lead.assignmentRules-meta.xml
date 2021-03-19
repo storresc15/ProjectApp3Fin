@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssignmentRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignmentRule>
+        <fullName>Assign Loan Referrals</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <assignedTo>Loan_Referral_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Lead.FinServ__ExpressedInterest__c</field>
+                <operation>equals</operation>
+                <value>Personal Loan</value>
+            </criteriaItems>
+        </ruleEntry>
+    </assignmentRule>
+</AssignmentRules>

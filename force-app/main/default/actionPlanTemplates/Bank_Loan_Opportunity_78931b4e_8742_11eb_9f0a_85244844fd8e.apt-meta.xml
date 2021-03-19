@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ActionPlanTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionPlanTemplateItem>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>Subject</name>
+            <valueLiteral>Create Referral for Bank Loan</valueLiteral>
+        </actionPlanTemplateItemValue>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>Priority</name>
+            <valueLiteral>High</valueLiteral>
+        </actionPlanTemplateItemValue>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>ActivityDate</name>
+            <valueFormula>StartDate + 1</valueFormula>
+        </actionPlanTemplateItemValue>
+        <isRequired>true</isRequired>
+        <itemEntityType>Task</itemEntityType>
+        <name>Create Referral for Bank Loan</name>
+        <uniqueName>Create_Referral_for_Bank_Loan_8731a1b9_8742_11eb_9f0a_dfd319967ac7</uniqueName>
+    </actionPlanTemplateItem>
+    <actionPlanTemplateItem>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>Subject</name>
+            <valueLiteral>Schedule Appointment with Customer</valueLiteral>
+        </actionPlanTemplateItemValue>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>Priority</name>
+            <valueLiteral>High</valueLiteral>
+        </actionPlanTemplateItemValue>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>ActivityDate</name>
+            <valueFormula>StartDate + 5</valueFormula>
+        </actionPlanTemplateItemValue>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>OwnerId</name>
+            <valueLiteral>0055Y00000FcNzPQAV</valueLiteral>
+        </actionPlanTemplateItemValue>
+        <isRequired>true</isRequired>
+        <itemEntityType>Task</itemEntityType>
+        <name>Schedule Appointment with Customer</name>
+        <uniqueName>Schedule_Appointment_with_Customer_a4bd1b26_8742_11eb_9f0a_e79d8e37bf45</uniqueName>
+    </actionPlanTemplateItem>
+    <actionPlanTemplateItem>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>Subject</name>
+            <valueLiteral>Send Bank Loan Paperwork to Customer</valueLiteral>
+        </actionPlanTemplateItemValue>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>Priority</name>
+            <valueLiteral>High</valueLiteral>
+        </actionPlanTemplateItemValue>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>ActivityDate</name>
+            <valueFormula>StartDate + 3</valueFormula>
+        </actionPlanTemplateItemValue>
+        <actionPlanTemplateItemValue>
+            <itemEntityType>Task</itemEntityType>
+            <name>OwnerId</name>
+            <valueLiteral>0055Y00000FcNzPQAV</valueLiteral>
+        </actionPlanTemplateItemValue>
+        <isRequired>true</isRequired>
+        <itemEntityType>Task</itemEntityType>
+        <name>Send Bank Loan Paperwork to Customer</name>
+        <uniqueName>Send_Bank_Loan_Paperwork_to_Customer_9694d71d_8742_11eb_9f0a_cd1570df7930</uniqueName>
+    </actionPlanTemplateItem>
+    <isAdHocItemCreationEnabled>true</isAdHocItemCreationEnabled>
+    <name>Bank Loan Opportunity</name>
+    <targetEntityType>PersonLifeEvent</targetEntityType>
+    <uniqueName>Bank_Loan_Opportunity_78931b4e_8742_11eb_9f0a_85244844fd8e</uniqueName>
+</ActionPlanTemplate>
