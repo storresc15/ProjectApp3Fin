@@ -15,8 +15,7 @@ public class Credomatic_AccountServiceTest {
         Credomatic_Application.selector.setMock(selectorMock); // 使用 setMock 设置工作单元的模拟
      
         // When
-        Credomatic_AccountService service = (Credomatic_AccountService) Credomatic_AccountService.newInstance();
-        service.createAccount(testAccountName);
+        Credomatic_AccountService.createAccount(testAccountName);
      
         // Then
         fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(fflib_ISObjectUnitOfWork.class);
@@ -54,8 +53,7 @@ public class Credomatic_AccountServiceTest {
         Credomatic_Application.selector.setMock(selectorMock);
      
         // When
-        Credomatic_AccountService service = (Credomatic_AccountService) Credomatic_AccountService.newInstance();
-        service.createAccount(testAccountName);
+        Credomatic_AccountService.createAccount(testAccountName);
      
         // Then
         fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(fflib_ISObjectUnitOfWork.class);

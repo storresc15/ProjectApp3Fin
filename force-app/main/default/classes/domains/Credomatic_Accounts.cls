@@ -32,16 +32,22 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
         }
     }
     
-
     public override void onBeforeUpdate(Map<Id,sObject> existingRecords) {
         
         Map<Id, Account> accountsOldMap = new Map<ID, Account>((List<Account>)existingRecords.values());
         
         createPremiumInsurancePolicies(accountsOldMap);
+        updateOwnerOnAcc(accountsOldMap);
 
     }
     
-    
+    public override void onAfterUpdate(Map<Id,sObject> existingRecords) {
+        
+        Map<Id, Account> accountsOldMap = new Map<ID, Account>((List<Account>)existingRecords.values());
+        updateRelatedConsandOpps(accountsOldMap);
+
+    }
+       
     public override void onApplyDefaults() {
          for (Account account : (List<Account>) Records) {
             account.Description = 'New Created Account from UI';
@@ -57,10 +63,29 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
 		}
 	}
     
-    public void createPremiumInsurancePolicies(Map<Id, Account> accountsOldMap) {
-  
+    public void updateAccOwner(fflib_ISObjectUnitOfWork uow, Map<String, Id> assignmentMap) 
+    {
+        for(Account account : (List<Account>) this.records)
+		{
+			account.OwnerId = assignmentMap.get(account.BillingPostalCode) != null? assignmentMap.get(account.BillingPostalCode) : account.OwnerId;
+			uow.registerDirty(account);
+		}
+        
+    }
+    //This signature is used on the before trigger
+    public void updateAccOwner(Map<String, Id> assignmentMap) 
+    {
+        for(Account account : (List<Account>) this.records)
+		{
+			account.OwnerId = assignmentMap.get(account.BillingPostalCode) != null? assignmentMap.get(account.BillingPostalCode) : account.OwnerId;
+		}
+        
+    }
+    
+    public void createPremiumInsurancePolicies(Map<Id, Account> accountsOldMap) 
+    { 
         List<Account> accsForPolicies = new List<Account>();
-        Credomatic_InsurancePolicyService service = (Credomatic_InsurancePolicyService) Credomatic_InsurancePolicyService.newInstance();
+        Credomatic_InsurancePolicyService service = new Credomatic_InsurancePolicyService();
         
         for(Account account : (List<Account>) Records) 
         {
@@ -76,6 +101,36 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
         }
         System.debug('Creating Policies for the following accounts: ' + accsForPolicies);
         service.createInsurancePoliciesFromAccounts(accsForPolicies, '001 Premium Policy','Premium Policy');
+    
+}
+    public void updateOwnerOnAcc(Map<Id, Account> accountsOldMap) 
+    {
+        List<Account> accsToUpdate = new List<Account>();
+        
+        for(Account acc : (List<Account>) Records) {
+            if(acc.BillingPostalCode != null && acc.BillingPostalCode != accountsOldMap.get(acc.Id).BillingPostalCode) {
+                    accsToUpdate.add(acc);
+                } 
+            }
+        //Calling the Service Method
+        
+        Credomatic_AccountService.updateOwnerFromAssignment(accsToUpdate);
+        //Credomatic_AccountService.updateRelatedConsandOpps(accsIdsForRelated);       
+    }
+    
+    public void updateRelatedConsandOpps(Map<Id, Account> accountsOldMap) 
+    {
+        Set<Id> accsToUpdate = new Set<Id>();
+        
+        for(Account acc : (List<Account>) Records) {
+            if(acc.OwnerId != accountsOldMap.get(acc.Id).OwnerId) {
+                    accsToUpdate.add(acc.Id);
+                } 
+            }
+        //Calling the Service Method
+        
+        //Credomatic_AccountService.updateOwnerFromAssignment(accsToUpdate);
+        Credomatic_AccountService.updateRelatedConsandOpps(accsToUpdate);       
     }
 
 }

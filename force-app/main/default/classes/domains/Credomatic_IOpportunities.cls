@@ -1,5 +1,5 @@
 /*********************************************************************************
-Class Name      : Credomatic_IAccounts
+Class Name      : Credomatic_IOpportunities
 Description     : As described in my Dreamforce 2014 presentation, Apex Interfaces are key to implementing mocking. 
 				  You must define these in order to allow the mocking framework to substitute dynamically different implementations. 
 				  The patterns library also provides base interfaces that reflect the base class methods for the Selector and Domain layers
@@ -12,10 +12,7 @@ Developer                   Date                   Description
 Sebastian                 2021-03-12              Initial version
 
 *********************************************************************************/
-public interface Credomatic_IAccounts {
-    
-    void updateOpportunityActivity(fflib_ISObjectUnitOfWork uow);
-    void updateAccOwner(fflib_ISObjectUnitOfWork uow, Map<String, Id> assignmentMap);
-    void updateAccOwner(Map<String, Id> assignmentMap);
+public interface Credomatic_IOpportunities {
+    void updateOppOwner(fflib_ISObjectUnitOfWork uow, id ownerId);
 
 }
