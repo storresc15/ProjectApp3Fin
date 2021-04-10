@@ -14,5 +14,7 @@ public interface Credomatic_IAccountsSelector {
     List<Account> selectById(Set<ID> idSet);
     List<Account> selectByName(String name);
     List<Account> selectByIdWithConsAndOpps(Set<ID> idSet);
+    List<Account> selectByOwner(Set<ID> idSet);
+    List<Account> selectByOwnerandZipCode(Set<ID> idSet, Set<String> setZipCode);
 
 }

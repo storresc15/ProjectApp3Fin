@@ -1,18 +1,16 @@
 /*********************************************************************************
-Class Name      : Credomatic_IAccountService
-Description     : Interface for Account service and mocks
+Class Name      : Credomatic_IPaymentAdapter
+Description     : This contract needs to be implemented by payment adapters
 Created By      : Sebastian Torres
-Created Date    : 2020-12-05
+Created Date    : 2021-04-06
 Modification Log:
 ---------------------------------------------------------------------------------- 
 Developer                   Date                   Description
 ----------------------------------------------------------------------------------
-Sebastian                 2021-03-29              Initial version
-
+Sebastian                 2021-04-06              Initial version
 *********************************************************************************/
-public interface Credomatic_IAccountService {
+public interface Credomatic_IPaymentAdapter {
     
-    void createAccount(String name);
-    void createAccount(fflib_ISObjectUnitOfWork uow, String name);
+    void submitRequest(Credomatic_PaymentRequest request);
 
 }

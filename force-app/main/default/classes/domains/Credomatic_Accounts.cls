@@ -32,19 +32,25 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
         }
     }
     
+    public override void onBeforeInsert() 
+    {
+        Credomatic_TerritoryAssignmentService.updateOwnerFromAssignment(getQualifyingAccstoUpdateOwner());
+    }
+    
     public override void onBeforeUpdate(Map<Id,sObject> existingRecords) {
         
         Map<Id, Account> accountsOldMap = new Map<ID, Account>((List<Account>)existingRecords.values());
         
-        createPremiumInsurancePolicies(accountsOldMap);
-        updateOwnerOnAcc(accountsOldMap);
+        Credomatic_InsurancePolicyService.createInsurancePoliciesFromAccounts(getQualifyingAccstoCreatePremiumInsurancePolicies(accountsOldMap), '001 Premium Policy','Premium Policy');
+        Credomatic_TerritoryAssignmentService.updateOwnerFromAssignment(getQualifyingAccstoUpdateOwner(accountsOldMap));
 
     }
     
     public override void onAfterUpdate(Map<Id,sObject> existingRecords) {
         
         Map<Id, Account> accountsOldMap = new Map<ID, Account>((List<Account>)existingRecords.values());
-        updateRelatedConsandOpps(accountsOldMap);
+        Credomatic_TerritoryAssignmentService.updateRelatedConsandOpps(getQualifyingRelatedConsandOpps(accountsOldMap));
+        Credomatic_TerritoryAssignmentService.createAssignmentHistory(getQualifyingAccsforAssignmentHistory(accountsOldMap), accountsOldMap);
 
     }
        
@@ -82,10 +88,17 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
         
     }
     
-    public void createPremiumInsurancePolicies(Map<Id, Account> accountsOldMap) 
+    public void updateAccsOwnerFromTerritory(fflib_ISObjectUnitOfWork uow, Map<Id, Id> assignmentMap) 
+    {
+        for(Account acc : (List<Account>) this.records) {
+            acc.ownerId = assignmentMap.get(acc.ownerId);
+            uow.registerDirty(acc);
+        }
+    }
+    
+    public List<Account> getQualifyingAccstoCreatePremiumInsurancePolicies(Map<Id, Account> accountsOldMap) 
     { 
         List<Account> accsForPolicies = new List<Account>();
-        Credomatic_InsurancePolicyService service = new Credomatic_InsurancePolicyService();
         
         for(Account account : (List<Account>) Records) 
         {
@@ -100,10 +113,9 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
             }
         }
         System.debug('Creating Policies for the following accounts: ' + accsForPolicies);
-        service.createInsurancePoliciesFromAccounts(accsForPolicies, '001 Premium Policy','Premium Policy');
-    
+        return accsForPolicies;
 }
-    public void updateOwnerOnAcc(Map<Id, Account> accountsOldMap) 
+    public List<Account> getQualifyingAccstoUpdateOwner(Map<Id, Account> accountsOldMap) 
     {
         List<Account> accsToUpdate = new List<Account>();
         
@@ -112,13 +124,20 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
                     accsToUpdate.add(acc);
                 } 
             }
-        //Calling the Service Method
-        
-        Credomatic_AccountService.updateOwnerFromAssignment(accsToUpdate);
-        //Credomatic_AccountService.updateRelatedConsandOpps(accsIdsForRelated);       
+       return accsToUpdate;
     }
     
-    public void updateRelatedConsandOpps(Map<Id, Account> accountsOldMap) 
+    public List<Account> getQualifyingAccstoUpdateOwner() 
+    {
+        List<Account> accsToUpdate = new List<Account>();
+        
+        for(Account acc : (List<Account>) Records) {
+            if(acc.BillingPostalCode != null) accsToUpdate.add(acc);
+        }
+        return accsToUpdate;     
+    }
+    
+    public Set<Id> getQualifyingRelatedConsandOpps(Map<Id, Account> accountsOldMap) 
     {
         Set<Id> accsToUpdate = new Set<Id>();
         
@@ -127,10 +146,20 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
                     accsToUpdate.add(acc.Id);
                 } 
             }
-        //Calling the Service Method
+        return accsToUpdate;       
+    }
+    
+    public List<Account> getQualifyingAccsforAssignmentHistory(Map<Id, Account> accountsOldMap) {
         
-        //Credomatic_AccountService.updateOwnerFromAssignment(accsToUpdate);
-        Credomatic_AccountService.updateRelatedConsandOpps(accsToUpdate);       
+        List<Account> accsToUpdate = new List<Account>();
+        
+        for(Account acc : (List<Account>) Records) {
+            if(acc.OwnerId != accountsOldMap.get(acc.Id).ownerId) {
+                	system.debug('This Account had a owner Change Assignment' + acc);
+                    accsToUpdate.add(acc);
+                } 
+            }
+        return accsToUpdate;
     }
 
 }

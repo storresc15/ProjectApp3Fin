@@ -1,18 +1,18 @@
 /*********************************************************************************
-Class Name      : Credomatic_IAccountService
-Description     : Interface for Account service and mocks
+Class Name      : Credomatic_PaymentRequest
+Description     : This class works as a data carrier for the payment adapters
 Created By      : Sebastian Torres
-Created Date    : 2020-12-05
+Created Date    : 2021-04-06
 Modification Log:
 ---------------------------------------------------------------------------------- 
 Developer                   Date                   Description
 ----------------------------------------------------------------------------------
-Sebastian                 2021-03-29              Initial version
-
+Sebastian                 2021-04-06              Initial version
 *********************************************************************************/
-public interface Credomatic_IAccountService {
+public class Credomatic_PaymentRequest {
     
-    void createAccount(String name);
-    void createAccount(fflib_ISObjectUnitOfWork uow, String name);
+    public decimal Amount {get; set;}
+    public String PaymentMethod {get; set;}
+    public String AuthorizationCode {get; set;}
 
 }

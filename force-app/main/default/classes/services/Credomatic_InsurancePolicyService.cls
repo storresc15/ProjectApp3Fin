@@ -17,7 +17,7 @@ global with sharing class Credomatic_InsurancePolicyService {
 		return (Credomatic_IInsurancePolicyService) Credomatic_Application.Service.newInstance(Credomatic_IInsurancePolicyService.class);
 	}
     
-    global void createInsurancePoliciesFromAccounts(List<Account> accs, String name, String policyName) {
+    global static void createInsurancePoliciesFromAccounts(List<Account> accs, String name, String policyName) {
         service().createInsurancePoliciesFromAccounts(accs, name, policyName);
     }
     

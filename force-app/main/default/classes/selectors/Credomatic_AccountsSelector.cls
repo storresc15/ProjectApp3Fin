@@ -36,7 +36,14 @@ implements Credomatic_IAccountsSelector
         return (List<Account>) selectSObjectsById(idSet);
     }
     public List<Account> selectByName(String name) {
-        return [SELECT Name FROM Account WHERE Name = :name];
+        return [SELECT Id, Name FROM Account WHERE Name = :name];
+    }
+    public List<Account> selectByOwner(Set<ID> idSet) {
+        return [SELECT Id,OwnerId FROM Account WHERE ownerId in :idSet];
+    }
+    //Method to be used in territory to get by owner and ZipCode
+    public List<Account> selectByOwnerandZipCode(Set<ID> idSet, Set<String> zipSet) {
+        return [SELECT Id,OwnerId,BillingPostalCode FROM Account WHERE ownerId in :idSet AND BillingPostalCode in :zipSet];
     }
     //Method to be used on the territory solution
     public List<Account> selectByIdWithConsAndOpps(Set<ID> idSet) {

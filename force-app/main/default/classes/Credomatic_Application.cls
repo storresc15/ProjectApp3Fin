@@ -18,14 +18,19 @@ public without sharing class Credomatic_Application {
             Account.SObjectType,
             Contact.SObjectType,
             Opportunity.SObjectType,    
-            InsurancePolicy.SObjectType    
+            InsurancePolicy.SObjectType,
+            Retail_Territory__c.SObjectType,
+            Assignment_History__c.SObjectType,
+            Territory_Assignment__c.SObjectType    
         }
     );
 
     public static final fflib_Application.ServiceFactory service = new fflib_Application.ServiceFactory(
         new Map<Type, Type> {
             Credomatic_IAccountService.class => Credomatic_AccountServiceImp.class,
-            Credomatic_IInsurancePolicyService.class => Credomatic_InsurancePolicyServiceImp.class
+            Credomatic_IInsurancePolicyService.class => Credomatic_InsurancePolicyServiceImp.class,
+            Credomatic_ITerritoryAssignmentService.class => Credomatic_TerritoryAssignmentServiceImp.class,
+            Credomatic_IFinTransactionService.class => Credomatic_FinTransactionServiceImp.class    
         }
     );
 
@@ -45,8 +50,18 @@ public without sharing class Credomatic_Application {
             Account.SObjectType => Credomatic_Accounts.Constructor.class,
             InsurancePolicy.SObjectType => Credomatic_InsruancePolicy.Constructor.class,
             Contact.SObjectType => Credomatic_Contacts.Constructor.class,
-            Opportunity.SObjectType => Credomatic_Opportunities.Constructor.class    
+            Opportunity.SObjectType => Credomatic_Opportunities.Constructor.class,
+            Territory_Assignment__c.SObjectType => Credomatic_TerritoryAssignments.class    
         }
     );
+    
+    public class GenericException extends Exception {}
+    public class ApplicationException extends Exception {}
+    
+    public static void publishException(String exceptiondetails){
+        Exception_Log__e pe = new Exception_Log__e();
+        pe.debugData__c = exceptionDetails;
+        eventBus.publish(pe);
+    }
 
 }

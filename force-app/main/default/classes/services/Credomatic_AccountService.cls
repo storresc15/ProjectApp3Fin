@@ -27,13 +27,4 @@ global with sharing class Credomatic_AccountService  {
         service().createAccount(uow, name);
     }
     
-    global static void updateOwnerFromAssignment(List<Account> records) 
-    {
-        service().updateOwnerFromAssignment(records);
-    }
-    
-    global static void updateRelatedConsandOpps(Set<Id> idSet)
-    {
-        service().updateRelatedConsandOpps(idSet);
-    }
 }
