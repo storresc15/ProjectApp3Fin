@@ -1,0 +1,18 @@
+<aura:component controller="FSC_CreditCardPaymentController" implements="force:lightningQuickAction,force:hasRecordId">
+    
+    <aura:attribute name="secNumber" type="String"/>
+    <aura:attribute name="recordId" type="String" />
+    
+    <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="FinServ__FinancialAccountTransaction__c">
+        <lightning:outputField fieldName="FinServ__CardAccountID__c" />
+        <lightning:outputField fieldName="Card_Expiration_Date__c" />
+        <lightning:outputField fieldName="Card_Security_Nummber__c" />
+        <lightning:outputField fieldName="Payment_Applied__c" />
+
+    </lightning:recordViewForm>
+    
+    <lightning:input type="String" value="{!v.secNumber}" label="Security Number"/>
+    <br/>
+    <lightning:button label="Pay" title="Payment action"  onclick="{!c.handleClick}"/>
+	
+</aura:component>
