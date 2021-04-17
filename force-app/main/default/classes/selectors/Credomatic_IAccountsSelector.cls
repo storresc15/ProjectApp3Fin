@@ -12,6 +12,7 @@ Sebastian                 2020-03-30              Initial version
 public interface Credomatic_IAccountsSelector {
     
     List<Account> selectById(Set<ID> idSet);
+    Account selectById(String accId);
     List<Account> selectByName(String name);
     List<Account> selectByIdWithConsAndOpps(Set<ID> idSet);
     List<Account> selectByOwner(Set<ID> idSet);

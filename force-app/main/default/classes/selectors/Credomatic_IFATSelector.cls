@@ -1,16 +1,17 @@
 /*********************************************************************************
-Class Name      : Credomatic_IPaymentAdapter
-Description     : This contract needs to be implemented by payment adapters
+Class Name      : Credomatic_IFATSelector
+Description     : Interface for Financial Account Transactions selector
 Created By      : Sebastian Torres
-Created Date    : 2021-04-06
+Created Date    : 2021-04-16
 Modification Log:
 ---------------------------------------------------------------------------------- 
 Developer                   Date                   Description
 ----------------------------------------------------------------------------------
-Sebastian                 2021-04-06              Initial version
+Sebastian                 2021-04-16              Initial version
 *********************************************************************************/
-public interface Credomatic_IPaymentAdapter {
+public interface Credomatic_IFATSelector {
     
-    String submitRequest(Credomatic_PaymentRequest request);
+    List<FinServ__FinancialAccountTransaction__c> selectById(Set<ID> idSet);
+    FinServ__FinancialAccountTransaction__c selectById(String accId);
 
 }

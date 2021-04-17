@@ -18,6 +18,7 @@ public class Credomatic_TerritoryAssignmentServiceImp implements Credomatic_ITer
         Map<String, Id> assignmentMap = new Map<String, Id>();
          //History Map
         Map<String, Id> historyAssignmentMap = new Map<String,Id>();
+        Credomatic_IAccounts accountDomain;
         
         
         
@@ -36,23 +37,19 @@ public class Credomatic_TerritoryAssignmentServiceImp implements Credomatic_ITer
             }
         }
         
-          Credomatic_IAccounts accountDomain = (Credomatic_IAccounts)Credomatic_Application.Domain.newInstance(records);
-		  accountDomain.updateAccOwner(assignmentMap);
+        if(System.isBatch()) {
+            //Here consider updating with the even functionality a Map<String, List<Id>> to validate
+            List<Account> accsValidated = New List<Account>();
+            for(Account a : records) {
+                if(a.ownerId != historyAssignmentMap.get(a.BillingPostalCode)) accsValidated.add(a);
+            }
+            accountDomain = (Credomatic_IAccounts)Credomatic_Application.Domain.newInstance(accsValidated);
+        } else{
+          accountDomain = (Credomatic_IAccounts)Credomatic_Application.Domain.newInstance(records);
+        }
         
-        /*/////////////////////Logic to be implemented for batch///////////////////////////////
-        // if(IsBeforeTrigger) accountDomain.updateAccOwner(assignmentMap);
-// else {
- 		//uow
-        //fflib_ISObjectUnitOfWork uow = Credomatic_Application.unitOfWork.newInstance();
-	accountDomain.updateAccOwner(assignmentMap,uow);
-	uow.commitWork;
-} 
-        ///////////////////////////////////////////////// */
+         accountDomain.updateAccOwner(assignmentMap);
         
-        //Missing the creation of the History object
-        //CONSIDER Using the uow for creating the history object
-        
-        //Returning the Set to be passed to updateRelatedConsandOpps
     }
     
     public void updateRelatedConsandOpps(Set<Id> idSet) 

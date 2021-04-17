@@ -16,9 +16,9 @@ global class Credomatic_FinTransactionService {
 		return (Credomatic_IFinTransactionService) Credomatic_Application.Service.newInstance(Credomatic_IFinTransactionService.class);
 	}
     
-    global static void submitPaymentRequest(FinServ__FinancialAccountTransaction__c ft, String method)
+    global static void submitPaymentRequest(FinServ__FinancialAccountTransaction__c ft, String method, String secNumber)
     {
-        service().submitPaymentRequest(ft, method);
+        service().submitPaymentRequest(ft, method, secNumber);
     }
     global static void updateTransactionStatus(FinServ__FinancialAccountTransaction__c ft)
     {

@@ -26,6 +26,7 @@ implements Credomatic_IAccountsSelector
             Account.Name,
             Account.OwnerId,    
             Account.AnnualRevenue,
+            Account.BillingPostalCode,    
             Account.isPersonAccount    };
     }
     public Schema.SObjectType getSObjectType() {
@@ -35,6 +36,12 @@ implements Credomatic_IAccountsSelector
     public List<Account> selectById(Set<ID> idSet) {
         return (List<Account>) selectSObjectsById(idSet);
     }
+    
+    public Account selectById(String accId) {
+        Account a = [SELECT Id, Name, BillingState, BillingCity, BillingStreet, BillingPostalCode FROM Account WHERE Id = :accId Limit 1];
+        return a;
+    }
+    
     public List<Account> selectByName(String name) {
         return [SELECT Id, Name FROM Account WHERE Name = :name];
     }
@@ -58,5 +65,11 @@ implements Credomatic_IAccountsSelector
  
       return (List<Account>) Database.query( query.toSOQL() );
     }
+    
+    public Database.QueryLocator queryLocatorForBatchAccAssignment()
+	{
+		return Database.getQueryLocator(
+			newQueryFactory().setCondition('BillingPostalCode != null').toSOQL());
+	}
 
 }

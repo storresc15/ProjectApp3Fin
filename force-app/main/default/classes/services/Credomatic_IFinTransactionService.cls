@@ -12,7 +12,7 @@ Sebastian                 2021-04-08              Initial version
 *********************************************************************************/
 public interface Credomatic_IFinTransactionService {
     
-    void submitPaymentRequest(FinServ__FinancialAccountTransaction__c ft, String method);
+    void submitPaymentRequest(FinServ__FinancialAccountTransaction__c ft, String method, String secNumber);
     void updateTransactionStatus(FinServ__FinancialAccountTransaction__c ft);
     void updateRollupOnTransactions(Set<Id> ids);
 

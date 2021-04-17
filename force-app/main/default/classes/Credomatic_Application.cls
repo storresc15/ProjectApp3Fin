@@ -21,7 +21,9 @@ public without sharing class Credomatic_Application {
             InsurancePolicy.SObjectType,
             Retail_Territory__c.SObjectType,
             Assignment_History__c.SObjectType,
-            Territory_Assignment__c.SObjectType    
+            Territory_Assignment__c.SObjectType,
+            FinServ__FinancialAccount__c.SObjectType,    
+            FinServ__FinancialAccountTransaction__c.SObjectType    
         }
     );
 
@@ -39,7 +41,9 @@ public without sharing class Credomatic_Application {
             Account.SObjectType => Credomatic_AccountsSelector.class,
             Contact.SObjectType => Credomatic_ContactsSelector.class,
             Opportunity.SObjectType => Credomatic_OpportunitiesSelector.class,
-            Retail_Territory__c.SObjectType => Credomatic_RetailTerritoriesSelector.class    
+            Retail_Territory__c.SObjectType => Credomatic_RetailTerritoriesSelector.class,
+            FinServ__FinancialAccountTransaction__c.SObjectType => Credomatic_FATSelector.class,
+            FinServ__FinancialAccount__c.SObjectType => Credomatic_FinancialAccountSelector.class    
         
         }
     );
@@ -51,7 +55,8 @@ public without sharing class Credomatic_Application {
             InsurancePolicy.SObjectType => Credomatic_InsruancePolicy.Constructor.class,
             Contact.SObjectType => Credomatic_Contacts.Constructor.class,
             Opportunity.SObjectType => Credomatic_Opportunities.Constructor.class,
-            Territory_Assignment__c.SObjectType => Credomatic_TerritoryAssignments.class    
+            Territory_Assignment__c.SObjectType => Credomatic_TerritoryAssignments.Constructor.class,
+            FinServ__FinancialAccount__c.SObjectType => Credomatic_FinancialAccounts.Constructor.class    
         }
     );
     
