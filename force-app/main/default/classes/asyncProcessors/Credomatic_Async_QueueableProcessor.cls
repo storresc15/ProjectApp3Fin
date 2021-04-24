@@ -17,7 +17,7 @@ public without sharing class Credomatic_Async_QueueableProcessor {
 
     public void execute(QueueableContext context)
     {
-      //if(!PRO3_AppCustomSetting.appEnabled) return; // On/off switch
+      if(!Credomatic_Application.appEnabled) return; // On/off switch
       List<AsyncRequest__c> requests;
       try
       {
@@ -85,7 +85,7 @@ public without sharing class Credomatic_Async_QueueableProcessor {
     @future
     private static void tryToQueue()
     {
-      //if(!PRO3_AppCustomSetting.appEnabled) return; // On/off switch
+      if(!Credomatic_Application.appEnabled) return; // On/off switch
       try
       {
       if(Limits.getLimitQueueableJobs() - Limits.getQueueableJobs() > 0)

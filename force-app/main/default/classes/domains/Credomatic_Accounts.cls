@@ -108,11 +108,11 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
               && 
               Account.FinServ__ClientCategory__c == 'Platinum' && accountsOldMap.get(account.id).FinServ__ClientCategory__c != 'Platinum')
             {
-                   system.debug('The client is platimun now');
+                   Credomatic_DiagnosticsInstrumentation.debug('The client is platimun now');
                    accsForPolicies.add(account);
             }
         }
-        System.debug('Creating Policies for the following accounts: ' + accsForPolicies);
+        Credomatic_DiagnosticsInstrumentation.debug('Creating Policies for the following accounts: ' + accsForPolicies);
         return accsForPolicies;
 }
     public List<Account> getQualifyingAccstoUpdateOwner(Map<Id, Account> accountsOldMap) 
@@ -155,7 +155,7 @@ public with sharing class Credomatic_Accounts extends fflib_SObjectDomain implem
         
         for(Account acc : (List<Account>) Records) {
             if(acc.OwnerId != accountsOldMap.get(acc.Id).ownerId) {
-                	system.debug('This Account had a owner Change Assignment' + acc);
+                	Credomatic_DiagnosticsInstrumentation.debug('This Account had a owner Change Assignment' + acc);
                     accsToUpdate.add(acc);
                 } 
             }

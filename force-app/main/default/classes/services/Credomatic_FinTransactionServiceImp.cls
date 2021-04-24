@@ -1,6 +1,6 @@
 /*********************************************************************************
 Class Name      : Credomatic_FinTransactionServiceImp
-Description     : 
+Description     : Implementation of the Financial Transactions Service
 Created By      : Sebastian Torres
 Created Date    : 2021-04-08
 Modification Log:
@@ -9,7 +9,7 @@ Developer                   Date                   Description
 ----------------------------------------------------------------------------------
 Sebastian                 2021-04-08              Initial version
 *********************************************************************************/
-public class Credomatic_FinTransactionServiceImp implements Credomatic_IFinTransactionService {
+public without sharing class Credomatic_FinTransactionServiceImp implements Credomatic_IFinTransactionService {
     
     //For this method consider later the strategy pattern in order to select at runtime the payment method
     //First Attempt was using a string with the method for the adapterFactory - try then using custom metadata
@@ -46,8 +46,10 @@ public class Credomatic_FinTransactionServiceImp implements Credomatic_IFinTrans
             update ft;
         } 
     }
+    
     public void updateTransactionStatus(FinServ__FinancialAccountTransaction__c ft)
     {}
+    
     public void updateRollupOnTransactions(Set<Id> ids)
     {
        List <FinServ__FinancialAccount__c> fAcs = Credomatic_FinancialAccountSelector.newInstance().selectByIdWithFATs(ids);
@@ -55,10 +57,14 @@ public class Credomatic_FinTransactionServiceImp implements Credomatic_IFinTrans
         system.debug('The list' + fAcs);
         
         For(FinServ__FinancialAccount__c fa : fAcs) {
+            double rolledUpAmount = 0;
             For(FinServ__FinancialAccountTransaction__c FAT : fa.FinServ__FinancialAccountTranslations__r) {
                 System.debug('The name: ' + FAT.name);
+                rolledUpAmount += FAT.FinServ__Amount__c;
             }
-        } 
+            //domain update considering uow
+        }
+        //uow commit changes
     }
 
 }

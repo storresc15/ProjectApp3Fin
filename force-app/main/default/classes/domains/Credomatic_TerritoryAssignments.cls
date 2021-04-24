@@ -57,7 +57,7 @@ public with sharing class Credomatic_TerritoryAssignments extends fflib_SObjectD
         
         for(Territory_Assignment__c ta : (List<Territory_Assignment__c>) Records) {
             if(ta.User_Assigned__c != oldMap.get(ta.Id).User_Assigned__c) {
-                	system.debug('This Territory had a owner Change: '+ ta);
+                	Credomatic_DiagnosticsInstrumentation.debug('This Territory had a owner Change: '+ ta);
                     tAssignmentsToUpdate.add(ta);
                 } 
             }

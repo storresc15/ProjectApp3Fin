@@ -65,12 +65,14 @@ public class Credomatic_TerritoryAssignmentServiceImp implements Credomatic_ITer
             
             if(acc.Opportunities.size() > 0) 
             {
+                Credomatic_DiagnosticsInstrumentation.debug('Account ' + acc.name + 'Has ' + acc.Opportunities.size() + ' Opps to update');
                 Credomatic_IOpportunities opportunities = (Credomatic_IOpportunities)Credomatic_Application.Domain.newInstance( acc.Opportunities );
 				opportunities.updateOppOwner(uow, acc.OwnerId);                
             }
             
             if(!acc.IsPersonAccount && acc.Contacts.size() > 0) 
             {
+                Credomatic_DiagnosticsInstrumentation.debug('Account ' + acc.name + 'Has ' + acc.Contacts.size() + ' Contacts to update');
                 Credomatic_IContacts contacts = (Credomatic_IContacts)Credomatic_Application.Domain.newInstance( acc.Contacts );
 				contacts.updateConOwner(uow, acc.OwnerId);  
             }
