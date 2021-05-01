@@ -11,6 +11,7 @@ Developer                   Date                   Description
 Sebastian                 2021-03-09              Initial version
 Sebastian				  2021-03-29			  Corrected the Service Factory implementation
 Sebastian				  2021-04-20			  Added handleTrigger method for diagnostics
+Sebastian				  2021-04-26			  Added External Request Custom Metadata info
 *********************************************************************************/
 public without sharing class Credomatic_Application {
     
@@ -124,11 +125,56 @@ public without sharing class Credomatic_Application {
   }
   
   public static Boolean appEnabled
-  {
+  { 
     get
     {
       return GetAppConfig().AppEnabled__c;
     }
   }
+    
+    public class MDExternalReferralClass
+    {
+        public String Name;
+        public decimal Level;
+		
+        public MDExternalReferralClass(External_Referral_Request_Level__mdt source)
+        {
+            Name = source.DeveloperName;
+            Level = source.level__c;
+        }
+
+        // Constructor that sets default values
+        public MDExternalReferralClass(String MDName) {
+            Name = MDName;
+            Level = 3;
+        }
+        
+        public MDExternalReferralClass() {}
+    }
+    
+    @testvisible
+    private static MDExternalReferralClass cachedConfig = null;
+	
+	public static MDExternalReferralClass getERConfig()
+	{
+		if(cachedConfig!=null) return cachedConfig;
+		
+        External_Referral_Request_Level__mdt setting = External_Referral_Request_Level__mdt.getInstance('Default');
+
+		if(setting == null || Test.isRunningTest()) 
+		{
+            cachedConfig = new MDExternalReferralClass('Default');
+            return cachedConfig;
+		}
+        cachedConfig = new MDExternalReferralClass(setting);
+		return cachedConfig;    // If configuration data is large, don't cache it outside of test mode
+	}
+    public static Integer ER_LevelSetting
+	{ 
+		get
+		{
+			return Integer.valueOf(getERConfig().Level);
+		}
+	}
 
 }
