@@ -25,7 +25,9 @@ public without sharing class Credomatic_Application {
             Assignment_History__c.SObjectType,
             Territory_Assignment__c.SObjectType,
             FinServ__FinancialAccount__c.SObjectType,    
-            FinServ__FinancialAccountTransaction__c.SObjectType    
+            FinServ__FinancialAccountTransaction__c.SObjectType,
+            Financial_Product_Training__c.SObjectType,
+            Event.SObjectType    
         }
     );
 
@@ -34,7 +36,8 @@ public without sharing class Credomatic_Application {
             Credomatic_IAccountService.class => Credomatic_AccountServiceImp.class,
             Credomatic_IInsurancePolicyService.class => Credomatic_InsurancePolicyServiceImp.class,
             Credomatic_ITerritoryAssignmentService.class => Credomatic_TerritoryAssignmentServiceImp.class,
-            Credomatic_IFinTransactionService.class => Credomatic_FinTransactionServiceImp.class    
+            Credomatic_IFinTransactionService.class => Credomatic_FinTransactionServiceImp.class,
+            Credomatic_IFinancialTraining.class => Credomatic_FinancialTrainingImp.class    
         }
     );
 
@@ -45,7 +48,8 @@ public without sharing class Credomatic_Application {
             Opportunity.SObjectType => Credomatic_OpportunitiesSelector.class,
             Retail_Territory__c.SObjectType => Credomatic_RetailTerritoriesSelector.class,
             FinServ__FinancialAccountTransaction__c.SObjectType => Credomatic_FATSelector.class,
-            FinServ__FinancialAccount__c.SObjectType => Credomatic_FinancialAccountSelector.class    
+            FinServ__FinancialAccount__c.SObjectType => Credomatic_FinancialAccountSelector.class,
+            Financial_Product_Training__c.SObjectType => Credomatic_FPTSelector.class    
         
         }
     );
@@ -58,7 +62,9 @@ public without sharing class Credomatic_Application {
             Contact.SObjectType => Credomatic_Contacts.Constructor.class,
             Opportunity.SObjectType => Credomatic_Opportunities.Constructor.class,
             Territory_Assignment__c.SObjectType => Credomatic_TerritoryAssignments.Constructor.class,
-            FinServ__FinancialAccount__c.SObjectType => Credomatic_FinancialAccounts.Constructor.class    
+            FinServ__FinancialAccount__c.SObjectType => Credomatic_FinancialAccounts.Constructor.class,
+            Financial_Product_Training__c.SObjectType => Credomatic_FProdTraining.Constructor.class,
+            Event.SObjectType => Credomatic_Events.Contructor.class    
         }
     );
     //Implemented Diagnostic instrumentation by using this method on all the triggers as decorating the fflib handling mechanism
@@ -69,7 +75,8 @@ public without sharing class Credomatic_Application {
         Map<SObjectType, Type> triggerMap = new Map<SObjectType, Type> {
             Account.SObjectType => Credomatic_Accounts.class,
             InsurancePolicy.SObjectType => Credomatic_InsruancePolicy.class,
-            Territory_Assignment__c.SObjectType => Credomatic_TerritoryAssignments.class   
+            Territory_Assignment__c.SObjectType => Credomatic_TerritoryAssignments.class,
+            Event.SObjectType => Credomatic_Events.class    
         };
         if(!triggerMap.containsKey(objectType)) return;
         
