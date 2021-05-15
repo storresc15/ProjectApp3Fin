@@ -37,7 +37,8 @@ public without sharing class Credomatic_Application {
             Credomatic_IInsurancePolicyService.class => Credomatic_InsurancePolicyServiceImp.class,
             Credomatic_ITerritoryAssignmentService.class => Credomatic_TerritoryAssignmentServiceImp.class,
             Credomatic_IFinTransactionService.class => Credomatic_FinTransactionServiceImp.class,
-            Credomatic_IFinancialTraining.class => Credomatic_FinancialTrainingImp.class    
+            Credomatic_IFinancialTraining.class => Credomatic_FinancialTrainingImp.class,
+            Credomatic_IAddressValidationService.class => Credomatic_AddressValidationServiceImp.class    
         }
     );
 
@@ -64,7 +65,8 @@ public without sharing class Credomatic_Application {
             Territory_Assignment__c.SObjectType => Credomatic_TerritoryAssignments.Constructor.class,
             FinServ__FinancialAccount__c.SObjectType => Credomatic_FinancialAccounts.Constructor.class,
             Financial_Product_Training__c.SObjectType => Credomatic_FProdTraining.Constructor.class,
-            Event.SObjectType => Credomatic_Events.Contructor.class    
+            Event.SObjectType => Credomatic_Events.Contructor.class,
+            FinServ__FinancialAccountTransaction__c.SObjectType => Credomatic_FATransactions.Constructor.class    
         }
     );
     //Implemented Diagnostic instrumentation by using this method on all the triggers as decorating the fflib handling mechanism
@@ -76,7 +78,9 @@ public without sharing class Credomatic_Application {
             Account.SObjectType => Credomatic_Accounts.class,
             InsurancePolicy.SObjectType => Credomatic_InsruancePolicy.class,
             Territory_Assignment__c.SObjectType => Credomatic_TerritoryAssignments.class,
-            Event.SObjectType => Credomatic_Events.class    
+            Event.SObjectType => Credomatic_Events.class,
+            FinServ__FinancialAccount__c.SObjectType => Credomatic_FinancialAccounts.class,
+            FinServ__FinancialAccountTransaction__c.SObjectType => Credomatic_FATransactions.class    
         };
         if(!triggerMap.containsKey(objectType)) return;
         
@@ -160,21 +164,21 @@ public without sharing class Credomatic_Application {
     }
     
     @testvisible
-    private static MDExternalReferralClass cachedConfig = null;
+    private static MDExternalReferralClass cachedReferralConfig = null;
 	
 	public static MDExternalReferralClass getERConfig()
 	{
-		if(cachedConfig!=null) return cachedConfig;
+		if(cachedReferralConfig!=null) return cachedReferralConfig;
 		
         External_Referral_Request_Level__mdt setting = External_Referral_Request_Level__mdt.getInstance('Default');
 
 		if(setting == null || Test.isRunningTest()) 
 		{
-            cachedConfig = new MDExternalReferralClass('Default');
-            return cachedConfig;
+            cachedReferralConfig = new MDExternalReferralClass('Default');
+            return cachedReferralConfig;
 		}
-        cachedConfig = new MDExternalReferralClass(setting);
-		return cachedConfig;    // If configuration data is large, don't cache it outside of test mode
+        cachedReferralConfig = new MDExternalReferralClass(setting);
+		return cachedReferralConfig;    // If configuration data is large, don't cache it outside of test mode
 	}
     public static Integer ER_LevelSetting
 	{ 
@@ -182,6 +186,53 @@ public without sharing class Credomatic_Application {
 		{
 			return Integer.valueOf(getERConfig().Level);
 		}
+	}
+    
+        public class MDAddressValidationClass
+    {
+        public String CountryCode;
+        public String ServiceClass;
+        public String Name;
+		
+        public MDAddressValidationClass(Address_Validation_Service__mdt source)
+        {
+            
+            CountryCode = source.Country_Code__c;
+            ServiceClass = source.Service_Class__c;
+            Name = source.DeveloperName;
+        }
+
+        // Constructor that sets default values
+        public MDAddressValidationClass(String MDName) {
+            Name = MDName;
+            CountryCode = 'US';
+            ServiceClass = 'testClass';
+        }
+        
+        public MDAddressValidationClass() {}
+    }
+    
+    @testvisible
+    private static MDAddressValidationClass cachedAVConfig = null;
+	
+	public static MDAddressValidationClass getAVConfig(String mdName)
+	{
+		if(cachedAVConfig!=null) return cachedAVConfig;
+		
+        Address_Validation_Service__mdt setting = Address_Validation_Service__mdt.getInstance(mdName);
+
+		if(setting == null || Test.isRunningTest()) 
+		{
+            cachedAVConfig = new MDAddressValidationClass('Default');
+            return cachedAVConfig;
+		}
+        cachedAVConfig = new MDAddressValidationClass(setting);
+		return cachedAVConfig;    // If configuration data is large, don't cache it outside of test mode
+	}
+    public static String AddressValidation_Service(String mdName)
+	{ 
+			return getAVConfig(mdName).ServiceClass ;
+		
 	}
 
 }

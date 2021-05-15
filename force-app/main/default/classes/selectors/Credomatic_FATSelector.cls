@@ -28,7 +28,9 @@ implements Credomatic_IFATSelector {
             FinServ__FinancialAccountTransaction__c.FinServ__CardAccountID__c,
             FinServ__FinancialAccountTransaction__c.Card_Expiration_Date__c,
             FinServ__FinancialAccountTransaction__c.FinServ__TransactionId__c,
-            FinServ__FinancialAccountTransaction__c.FinServ__TransactionStatus__c
+            FinServ__FinancialAccountTransaction__c.FinServ__TransactionStatus__c,
+            FinServ__FinancialAccountTransaction__c.Payment_Applied__c,
+            FinServ__FinancialAccountTransaction__c.FinServ__TransactionSubtype__c    
                 };
     }
     public Schema.SObjectType getSObjectType() {

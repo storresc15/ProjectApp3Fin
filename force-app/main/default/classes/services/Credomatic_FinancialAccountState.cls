@@ -12,7 +12,7 @@ Sebastian                 2021-05-05              Initial version
 *********************************************************************************/
 public interface Credomatic_FinancialAccountState {
     
-    void rollupBalance(FinServ__FinancialAccount__c financialAccount);
+    void rollupBalance(FinServ__FinancialAccount__c financialAccount, List<FinServ__FinancialAccountTransaction__c> fats);
     void validateAccountNumber(FinServ__FinancialAccount__c financialAccount);
     void closeAccount(FinServ__FinancialAccount__c financialAccount);
     void validateShippingAddress(FinServ__FinancialAccount__c financialAccount);

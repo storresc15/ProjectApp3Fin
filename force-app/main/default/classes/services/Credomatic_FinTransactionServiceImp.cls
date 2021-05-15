@@ -52,19 +52,20 @@ public without sharing class Credomatic_FinTransactionServiceImp implements Cred
     
     public void updateRollupOnTransactions(Set<Id> ids)
     {
-       List <FinServ__FinancialAccount__c> fAcs = Credomatic_FinancialAccountSelector.newInstance().selectByIdWithFATs(ids);
-
+        List <FinServ__FinancialAccount__c> fAcs = Credomatic_FinancialAccountSelector.newInstance().selectByIdWithFATs(ids);
+        //Adding the state context instance
+        Credomatic_FinancialAccountContext context;
+        fflib_ISObjectUnitOfWork uow = Credomatic_Application.unitOfWork.newInstance();
         system.debug('The list' + fAcs);
         
         For(FinServ__FinancialAccount__c fa : fAcs) {
-            double rolledUpAmount = 0;
-            For(FinServ__FinancialAccountTransaction__c FAT : fa.FinServ__FinancialAccountTranslations__r) {
-                System.debug('The name: ' + FAT.name);
-                rolledUpAmount += FAT.FinServ__Amount__c;
+            context = new Credomatic_FinancialAccountContext(fa.FinServ__Status__c);
+            context.rollupBalance(fa, fa.FinServ__FinancialAccountTranslations__r);
+            uow.registerDirty(fa);
+            
             }
-            //domain update considering uow
-        }
         //uow commit changes
+        uow.commitWork();
     }
 
 }

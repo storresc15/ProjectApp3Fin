@@ -12,7 +12,7 @@ Sebastian                 2021-04-16              Initial version
 *********************************************************************************/
 public class Credomatic_FinancialAccounts extends fflib_SObjectDomain implements Credomatic_IFinancialAccounts {
     
-    public static Credomatic_IFinancialAccounts newInstance(List<Account> recordList)
+    public static Credomatic_IFinancialAccounts newInstance(List<FinServ__FinancialAccount__c> recordList)
 	{
 		return (Credomatic_IFinancialAccounts) Credomatic_Application.Domain.newInstance(recordList);
 	}
@@ -44,7 +44,7 @@ public class Credomatic_FinancialAccounts extends fflib_SObjectDomain implements
     
     public override void onAfterUpdate(Map<Id,sObject> existingRecords) 
     {
-        
+       
     }
        
     public override void onApplyDefaults() 
