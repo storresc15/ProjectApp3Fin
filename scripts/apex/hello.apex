@@ -8,3 +8,8 @@
 string tempvar = 'Enter_your_name_here';
 System.debug('Hello World!');
 System.debug('My name is ' + tempvar);
+
+
+HttpCalloutService service = new HTTPCalloutService('TestMetadata');
+System.debug(service.getRequest());
+System.debug(service.sendRequest().getBody());
