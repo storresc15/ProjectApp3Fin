@@ -10,6 +10,6 @@ System.debug('Hello World!');
 System.debug('My name is ' + tempvar);
 
 
-HttpCalloutService service = new HTTPCalloutService('TestMetadata');
+HttpCalloutService service = new HTTPCalloutService('MuleFlights');
 System.debug(service.getRequest());
 System.debug(service.sendRequest().getBody());

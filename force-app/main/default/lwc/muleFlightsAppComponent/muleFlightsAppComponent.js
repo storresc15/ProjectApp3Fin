@@ -3,10 +3,10 @@ import startRequestImperative from '@salesforce/apexContinuation/FSC_FlightsLigh
 
 export default class MuleFlightsAppComponent extends LightningElement {
 
-    @track imperativeContinuation = {};
+    @track imperativeContinuation;
 
     callContinuation() {
-        this.imperativeContinuation = '';
+        this.imperativeContinuation = [];
         startRequestImperative()
         .then(result => {
             this.imperativeContinuation = result;

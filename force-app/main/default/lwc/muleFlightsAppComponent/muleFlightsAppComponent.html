@@ -1,9 +1,30 @@
 <template>
             <lightning-card title="Mule Flights App">
-                <p>
                     <lightning-button label="Call Flights" onclick={callContinuation}></lightning-button>
-                    Imperative Result: {formatedImperativeResult}
-                </p>
+                   
+                
+                <template if:true={imperativeContinuation}>
+                    <template for:each={imperativeContinuation} for:item="flightObjs">
+                        <div key={flightObjs.flightCode}>
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                            <lightning-icon icon-name="action:new_note" alternative-text="New note" title="New note"></lightning-icon>
+                        </div>
+                        <div class="slds-col">
+                        <div class="slds-text-heading_large">Flight Airline: {flightObjs.airline}</div>
+                            <div class="slds-text-heading_medium">Flight Code: {flightObjs.flightCode}</div>
+                            <div class="slds-text-heading_small">Flight Departure Date: {flightObjs.departureDate}</div>
+                            <div class="slds-text-heading_small">Flight Total Seats: {flightObjs.totalSeats}</div>
+                            <div class="slds-text-heading_small">Flight Price: {flightObjs.price}</div>
+                        </div>
+                        </div>
+                        </div>
+                </template> 
+            </template> 
+      
+
             </lightning-card>
+
+            
     
 </template>
